@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glid", "Glid.csproj", "{0319AA23-7D9C-BB17-6180-D5C189251932}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glid.Editor", "Glid.Editor.csproj", "{34A79A15-C359-1A9F-9761-7D176688E9B8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0319AA23-7D9C-BB17-6180-D5C189251932}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0319AA23-7D9C-BB17-6180-D5C189251932}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0319AA23-7D9C-BB17-6180-D5C189251932}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0319AA23-7D9C-BB17-6180-D5C189251932}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34A79A15-C359-1A9F-9761-7D176688E9B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34A79A15-C359-1A9F-9761-7D176688E9B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34A79A15-C359-1A9F-9761-7D176688E9B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34A79A15-C359-1A9F-9761-7D176688E9B8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
