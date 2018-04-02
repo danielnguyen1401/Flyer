@@ -21,10 +21,9 @@ public class Preloader : MonoBehaviour
         if (Time.time < minimumLogoTime)
             fadeScene.alpha = 1 - Time.time;
 
-
         if (Time.time > minimumLogoTime && loadTime != 0)
         {
-            fadeScene.alpha += Time.deltaTime;
+            fadeScene.alpha = Time.timeSinceLevelLoad - minimumLogoTime;
             if (fadeScene.alpha >= 1)
             {
                 SceneManager.LoadScene(1);

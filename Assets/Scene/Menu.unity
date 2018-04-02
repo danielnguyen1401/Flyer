@@ -38,12 +38,12 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -2422,6 +2422,8 @@ MonoBehaviour:
   shopBtn: {fileID: 294553746}
   colorBuySet: {fileID: 789325077}
   trailBuySet: {fileID: 1502779967}
+  colorBuySetText: {fileID: 1086641139}
+  trailBuySetText: {fileID: 1420505156}
   shopPanel: {fileID: 498188847}
   colorPanel: {fileID: 684913766}
   trailPanel: {fileID: 1259316927}
@@ -3933,7 +3935,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.033304498, g: 0.5441265, b: 0.5661765, a: 1}
+  m_Color: {r: 0.24329586, g: 0.64444876, b: 0.66176474, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:

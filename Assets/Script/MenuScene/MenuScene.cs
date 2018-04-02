@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,16 +8,21 @@ public class MenuScene : MonoBehaviour
     [SerializeField] private Button shopBtn;
     [SerializeField] private Button colorBuySet;
     [SerializeField] private Button trailBuySet;
+    [SerializeField] Text colorBuySetText;
+    [SerializeField] Text trailBuySetText;
     [SerializeField] GameObject shopPanel;
     [SerializeField] Transform colorPanel;
     [SerializeField] Transform trailPanel;
     [SerializeField] Transform levelPanel;
     [SerializeField] RectTransform menuContainer;
 
-    private Vector3 desiredMenuPosition;
-
     private float minimumFadeTime = 0.2f;
     private bool faded = false;
+    private Vector3 desiredMenuPosition;
+    int[] colorCost = new int[] {0, 5, 5, 5, 10, 10, 10, 15, 15, 10};
+    int[] trailCost = new int[] {0, 20, 40, 40, 60, 60, 80, 80, 100, 100};
+    private int selectedColorIndex;
+    private int selectedTrailIndex;
 
     void Awake()
     {
@@ -44,6 +48,9 @@ public class MenuScene : MonoBehaviour
     {
         if (!faded)
             FadeIn();
+        // navigate the menu container
+        menuContainer.anchoredPosition3D = Vector3.Lerp(menuContainer.anchoredPosition3D, desiredMenuPosition,
+            5f*Time.deltaTime);
     }
 
     void InitShop()
@@ -75,9 +82,13 @@ public class MenuScene : MonoBehaviour
         }
     }
 
-    void OnTrailSet(int current)
+    void OnTrailSet(int currentIndex)
     {
-//        Debug.Log("trail menuIndex: " + current);
+        selectedTrailIndex = currentIndex;
+        if (SaveManager.instance.IsTrailOwned(currentIndex))
+            trailBuySetText.text = "Select";
+        else
+            trailBuySetText.text = "Buy: " + trailCost[currentIndex].ToString();
     }
 
     void OnLevelSet(int current)
@@ -85,21 +96,58 @@ public class MenuScene : MonoBehaviour
         Debug.Log("Level: " + current + " selected");
     }
 
-    void OnColorSet(int index)
+    void OnColorSet(int currentIndex)
     {
-//        Debug.Log(menuIndex);
+        selectedColorIndex = currentIndex;
+        if (SaveManager.instance.IsColorOwned(currentIndex))
+            colorBuySetText.text = "Select";
+        else
+            colorBuySetText.text = "Buy: " + colorCost[currentIndex].ToString();
     }
 
     void OnColorBuySet()
     {
-        Debug.Log("click color buy set button");
+        if (SaveManager.instance.IsColorOwned(selectedColorIndex))
+        {
+            SetColor(selectedColorIndex);
+        }
+        else
+        {
+            if (SaveManager.instance.BuyColor(selectedColorIndex, colorCost[selectedColorIndex]))
+                SetColor(selectedColorIndex);
+            else
+            {
+                Debug.Log("You do not have enough gold!");
+            }
+        }
     }
 
     void OnTrailBuySet()
     {
-        Debug.Log("click trai buy set button");
+        if (SaveManager.instance.IsTrailOwned(selectedTrailIndex))
+        {
+            SetTrail(selectedTrailIndex);
+        }
+        else
+        {
+            if (SaveManager.instance.BuyTrail(selectedTrailIndex, trailCost[selectedTrailIndex]))
+                SetTrail(selectedTrailIndex);
+            else
+            {
+                Debug.Log("You do not have enough gold!");
+            }
+        }
     }
 
+    void SetColor(int index)
+    {
+        colorBuySetText.text = "Current";
+    }
+
+    void SetTrail(int index)
+    {
+        trailBuySetText.text = "Current";
+    }
 
     void FadeIn()
     {
@@ -116,31 +164,26 @@ public class MenuScene : MonoBehaviour
         switch (menuIndex)
         {
             case 0: // main menu
-                menuContainer.anchoredPosition = new Vector2(SmoothMovingRect(menuContainer.anchoredPosition.x, 0f), 0);
+                desiredMenuPosition = Vector3.zero;
                 break;
             case 1: // play menu
-                menuContainer.anchoredPosition = new Vector2(SmoothMovingRect(menuContainer.anchoredPosition.x, -1280f), 0);
+                desiredMenuPosition = Vector3.right*1280;
                 break;
             case 2: // shop menu
-                menuContainer.anchoredPosition = new Vector2(SmoothMovingRect(menuContainer.anchoredPosition.x, 1280f), 0);
+                desiredMenuPosition = Vector3.left*1280;
                 break;
         }
     }
 
-    float SmoothMovingRect(float currentXPos, float nextXPos)
-    {
-       return Mathf.Lerp(currentXPos, nextXPos, Time.deltaTime * 60f);
-
-    }
     void OnPlayClick()
     {
-//        Debug.Log("Play game");
+        //        Debug.Log("Play game");
         NavigateTo(1);
     }
 
     void OnShopClick()
     {
-//        Debug.Log("go to the shop");
+        //        Debug.Log("go to the shop");
         NavigateTo(2);
     }
 

@@ -1,7 +1,8 @@
-
-
 public class SaveState
 {
-    public int gold = 2000;
-     
+    public int gold = 200;
+    public int completedLevel = 0;
+
+    public int colorOwned = 0;
+    public int trailOwned = 0;
 }

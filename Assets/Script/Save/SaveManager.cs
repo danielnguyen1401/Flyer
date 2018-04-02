@@ -2,20 +2,21 @@ using UnityEngine;
 
 public class SaveManager : MonoBehaviour
 {
-    public SaveState state;
-    public static SaveManager instance { set; get; }
-
     void Awake()
     {
+//        ResetSave();
         DontDestroyOnLoad(gameObject);
         if (instance == null)
-        {
             instance = this;
-        }
-//        PlayerPrefs.DeleteKey("save");
         Load();
-//        Debug.Log(Helper.Serialize<SaveState>(state));
+
+//        UnlockColor(1);
+//        Debug.Log(state.colorOwned); // 0000 0000 0001 0010 = 1
     }
+
+    public SaveState state;
+
+    public static SaveManager instance { set; get; }
 
     void Start()
     {
@@ -43,5 +44,58 @@ public class SaveManager : MonoBehaviour
 
     void Update()
     {
+    }
+
+    public bool IsColorOwned(int index) // check if the bit is set, if so the color is owned
+    {
+        return (state.colorOwned & (1 << index)) != 0;
+    }
+
+    public bool IsTrailOwned(int index)
+    {
+        return (state.trailOwned & (1 << index)) != 0;
+    }
+
+    public void UnlockColor(int index)
+    {
+        state.colorOwned |= 1 << index;
+    }
+
+    public void UnlockTrail(int index)
+    {
+        state.trailOwned |= 1 << index; // toggle on the bit at index
+    }
+
+    public bool BuyColor(int index, int cost)
+    {
+        if (state.gold >= cost)
+        {
+            state.gold -= cost;
+            UnlockColor(index);
+            Save();
+            Debug.Log(state.gold);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public bool BuyTrail(int index, int cost)
+    {
+        if (state.gold >= cost)
+        {
+            state.gold -= cost;
+            UnlockTrail(index);
+            Save();
+            Debug.Log(state.gold);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public void ResetSave()
+    {
+        PlayerPrefs.DeleteKey("save");
     }
 }
