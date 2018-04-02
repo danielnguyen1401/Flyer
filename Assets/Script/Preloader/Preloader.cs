@@ -5,10 +5,15 @@ public class Preloader : MonoBehaviour
 {
     [SerializeField] private CanvasGroup fadeScene;
     [SerializeField] private float minimumLogoTime = 3f;
+    private float loadTime;
 
     void Start()
     {
-        fadeScene.alpha = 1;
+        fadeScene.alpha = 0;
+        if (Time.time < minimumLogoTime)
+            loadTime = minimumLogoTime;
+        else
+            loadTime = Time.time;
     }
 
     void Update()
@@ -17,7 +22,7 @@ public class Preloader : MonoBehaviour
             fadeScene.alpha = 1 - Time.time;
 
 
-        if (Time.time > minimumLogoTime)
+        if (Time.time > minimumLogoTime && loadTime != 0)
         {
             fadeScene.alpha += Time.deltaTime;
             if (fadeScene.alpha >= 1)
