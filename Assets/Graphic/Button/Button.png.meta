@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 1c0bc887301d89842a829a61fc3f0658
-timeCreated: 1522403432
+timeCreated: 1522663064
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -9,6 +9,8 @@ TextureImporter:
     21300004: Settings_Button
     21300006: Replay_Button
     21300008: Replay_Button_2
+    21300010: Back_1
+    21300012: Back_2
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -98,9 +100,9 @@ TextureImporter:
       name: Play_Button
       rect:
         serializedVersion: 2
-        x: 78
-        y: 2147
-        width: 193
+        x: 82
+        y: 2146
+        width: 190
         height: 190
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -114,8 +116,8 @@ TextureImporter:
         serializedVersion: 2
         x: 81
         y: 1126
-        width: 189
-        height: 191
+        width: 190
+        height: 190
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,6 +160,34 @@ TextureImporter:
         y: 1333
         width: 184
         height: 189
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Back_1
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 719
+        width: 190
+        height: 190
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Back_2
+      rect:
+        serializedVersion: 2
+        x: 476
+        y: 719
+        width: 190
+        height: 190
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
