@@ -5,7 +5,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instantce { set; get; }
 
     public int currentLevel = 0;
-    public int menuFocus = 1;
+    public int menuFocus = 0;
 
     void Awake()
     {

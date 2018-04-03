@@ -17,9 +17,14 @@ public class MenuScene : MonoBehaviour
     [SerializeField] Transform trailPanel;
     [SerializeField] Transform levelPanel;
     [SerializeField] RectTransform menuContainer;
+    [SerializeField] AnimationCurve enteringLevelZoomCurve;
 
-    private float minimumFadeTime = 0.2f;
-    private bool faded = false;
+    private bool isEnteringLevel;
+    private float zoomDuration = 3.0f;
+    private float zoomTransition;
+    private float fadeInSpeed = 0.33f;
+//    private float minimumFadeTime = 0.2f;
+//    private bool faded = false;
     private Vector3 desiredMenuPosition;
     int[] colorCost = new int[] {0, 5, 5, 5, 10, 10, 10, 15, 15, 10};
     int[] trailCost = new int[] {0, 20, 40, 40, 60, 60, 80, 80, 100, 100};
@@ -40,7 +45,7 @@ public class MenuScene : MonoBehaviour
 
     void Start()
     {
-        fadeScene.alpha = 0;
+        fadeScene.alpha = 1;
 
         // player's preference
         SaveManager.instance.UnlockColor(SaveManager.instance.state.activeColor);
@@ -53,7 +58,7 @@ public class MenuScene : MonoBehaviour
         
         // make the button bigger
         colorPanel.GetChild(SaveManager.instance.state.activeColor).GetComponent<RectTransform>().localScale = Vector3.one * 1.125f;
-        trailPanel.GetChild(SaveManager.instance.state.activeTrail).GetComponent<RectTransform>().localScale = Vector3.one*1.125f;
+        trailPanel.GetChild(SaveManager.instance.state.activeTrail).GetComponent<RectTransform>().localScale = Vector3.one * 1.125f;
 
         SetCameraTo(GameManager.Instantce.menuFocus);
     }
@@ -68,10 +73,29 @@ public class MenuScene : MonoBehaviour
 
     void Update()
     {
-        if (!faded)
-            FadeIn();
+        fadeScene.alpha = 1 - Time.timeSinceLevelLoad * fadeInSpeed;
         // navigate the menu container
         menuContainer.anchoredPosition3D = Vector3.Lerp(menuContainer.anchoredPosition3D, desiredMenuPosition, 7f * Time.deltaTime);
+
+        if (isEnteringLevel) // zoom into the current level button and switch to "Game" scene
+        {
+            zoomTransition += (1 / zoomDuration) * Time.deltaTime;
+            menuContainer.localScale = Vector3.Lerp(Vector3.one, Vector3.one * 5f, enteringLevelZoomCurve.Evaluate(zoomTransition));
+
+            Vector3 newMenuPosition = desiredMenuPosition * 5f;
+
+            RectTransform rt = levelPanel.GetChild(GameManager.Instantce.currentLevel).GetComponent<RectTransform>();
+            newMenuPosition -= rt.anchoredPosition3D * 5f;
+
+            menuContainer.anchoredPosition3D = Vector3.Lerp(desiredMenuPosition, newMenuPosition, enteringLevelZoomCurve.Evaluate(zoomTransition));
+
+            fadeScene.alpha = zoomTransition;
+
+            if (zoomTransition >= 1)
+            {
+                SceneManager.LoadScene("Game");
+            }
+        }
     }
 
     void InitShop()
@@ -176,9 +200,8 @@ public class MenuScene : MonoBehaviour
 
     void OnLevelSelect(int current)
     {
-//        Debug.Log("Level: " + current + " selected");
         GameManager.Instantce.currentLevel = current;
-        SceneManager.LoadScene("Game");
+        isEnteringLevel = true;
 
     }
 
@@ -240,15 +263,15 @@ public class MenuScene : MonoBehaviour
         SaveManager.instance.Save();
     }
 
-    void FadeIn()
-    {
-        if (Time.timeSinceLevelLoad > minimumFadeTime)
-        {
-            fadeScene.alpha += Time.deltaTime;
-            if (fadeScene.alpha >= 1)
-                faded = true;
-        }
-    }
+//    void FadeIn()
+//    {
+//        if (Time.timeSinceLevelLoad > minimumFadeTime)
+//        {
+//            fadeScene.alpha += Time.deltaTime;
+//            if (fadeScene.alpha >= 1)
+//                faded = true;
+//        }
+//    }
 
     void SetCameraTo(int index)
     {
