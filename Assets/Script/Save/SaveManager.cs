@@ -96,4 +96,13 @@ public class SaveManager : MonoBehaviour
     {
         PlayerPrefs.DeleteKey("save");
     }
+
+    public void CompleteLevel(int index)
+    {
+        if (state.completedLevel == index) // if this is the current active level
+        {
+            state.completedLevel++;
+            Save();
+        }
+    }
 }

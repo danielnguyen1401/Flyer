@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuScene : MonoBehaviour
@@ -53,6 +54,8 @@ public class MenuScene : MonoBehaviour
         // make the button bigger
         colorPanel.GetChild(SaveManager.instance.state.activeColor).GetComponent<RectTransform>().localScale = Vector3.one * 1.125f;
         trailPanel.GetChild(SaveManager.instance.state.activeTrail).GetComponent<RectTransform>().localScale = Vector3.one*1.125f;
+
+        SetCameraTo(GameManager.Instantce.menuFocus);
     }
 
     void ButtonAddListener()
@@ -68,7 +71,7 @@ public class MenuScene : MonoBehaviour
         if (!faded)
             FadeIn();
         // navigate the menu container
-        menuContainer.anchoredPosition3D = Vector3.Lerp(menuContainer.anchoredPosition3D, desiredMenuPosition, 5f * Time.deltaTime);
+        menuContainer.anchoredPosition3D = Vector3.Lerp(menuContainer.anchoredPosition3D, desiredMenuPosition, 7f * Time.deltaTime);
     }
 
     void InitShop()
@@ -100,7 +103,30 @@ public class MenuScene : MonoBehaviour
         for (int i = 0; i < levelPanel.childCount - 1; i++) // except the back button
         {
             int current = i;
-            levelPanel.GetChild(current).GetComponent<Button>().onClick.AddListener(() => OnLevelSet(current));
+            Button b = levelPanel.GetChild(current).GetComponent<Button>();
+            b.onClick.AddListener(() => OnLevelSelect(current));
+
+            Image img = levelPanel.GetChild(current).GetComponent<Image>();
+            if (current <= SaveManager.instance.state.completedLevel)
+            {
+                // it's unlocked
+                if (current == SaveManager.instance.state.completedLevel)
+                {
+                    // not complete the level
+                    img.color = Color.white;
+                }
+                else
+                {
+                    // the level is already completed
+                    img.color = Color.green;
+                }
+            }
+            else
+            {
+                // it's not unlocked
+                b.interactable = false;
+                img.color = Color.grey;
+            }
         }
     }
 
@@ -128,11 +154,6 @@ public class MenuScene : MonoBehaviour
             trailBuySetText.text = "Buy: " + trailCost[currentIndex].ToString();
     }
 
-    void OnLevelSet(int current)
-    {
-        Debug.Log("Level: " + current + " selected");
-    }
-
     void OnColorSelect(int currentIndex) // make the selected button biger, and interact with buy button
     {
         if (selectedColorIndex == currentIndex)
@@ -151,6 +172,14 @@ public class MenuScene : MonoBehaviour
         }
         else
             colorBuySetText.text = "Buy: " + colorCost[currentIndex].ToString();
+    }
+
+    void OnLevelSelect(int current)
+    {
+//        Debug.Log("Level: " + current + " selected");
+        GameManager.Instantce.currentLevel = current;
+        SceneManager.LoadScene("Game");
+
     }
 
     void OnColorBuySet()
@@ -221,6 +250,11 @@ public class MenuScene : MonoBehaviour
         }
     }
 
+    void SetCameraTo(int index)
+    {
+        NavigateTo(index);
+        menuContainer.anchoredPosition3D = desiredMenuPosition;
+    }
     void NavigateTo(int menuIndex)
     {
         switch (menuIndex)
