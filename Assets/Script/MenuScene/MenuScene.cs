@@ -18,7 +18,7 @@ public class MenuScene : MonoBehaviour
     [SerializeField] Transform levelPanel;
     [SerializeField] RectTransform menuContainer;
     [SerializeField] AnimationCurve enteringLevelZoomCurve;
-
+    [SerializeField] MenuCamera menuCamera;
     private bool isEnteringLevel;
     private float zoomDuration = 3.0f;
     private float zoomTransition;
@@ -284,12 +284,15 @@ public class MenuScene : MonoBehaviour
         {
             case 0: // main menu
                 desiredMenuPosition = Vector3.zero;
+                menuCamera.BackToMainMenu();
                 break;
             case 1: // play menu
                 desiredMenuPosition = Vector3.right * 1280;
+                menuCamera.MoveToLevel();
                 break;
             case 2: // shop menu
                 desiredMenuPosition = Vector3.left * 1280;
+                menuCamera.MoveToShop();
                 break;
         }
     }
