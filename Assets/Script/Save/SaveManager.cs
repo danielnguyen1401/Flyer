@@ -73,7 +73,6 @@ public class SaveManager : MonoBehaviour
             state.gold -= cost;
             UnlockColor(index);
             Save();
-            Debug.Log(state.gold);
             return true;
         }
         else
@@ -87,7 +86,6 @@ public class SaveManager : MonoBehaviour
             state.gold -= cost;
             UnlockTrail(index);
             Save();
-            Debug.Log(state.gold);
             return true;
         }
         else
