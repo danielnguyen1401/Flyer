@@ -23,9 +23,10 @@ public class MenuScene : MonoBehaviour
     private float zoomDuration = 2f;
     private float zoomTransition;
     private float fadeInSpeed = 0.33f;
-//    private float minimumFadeTime = 0.2f;
-//    private bool faded = false;
+
     private Vector3 desiredMenuPosition;
+    private GameObject currentTrail;
+
     int[] colorCost = new int[] {0, 5, 5, 5, 10, 10, 10, 15, 15, 10};
     int[] trailCost = new int[] {0, 20, 40, 40, 60, 60, 80, 80, 100, 100};
     private int selectedColorIndex;
@@ -41,11 +42,6 @@ public class MenuScene : MonoBehaviour
         ButtonAddListener();
         InitShop();
         InitLevel();
-    }
-
-    void Start()
-    {
-        fadeScene.alpha = 1;
 
         // player's preference
         SaveManager.instance.UnlockColor(SaveManager.instance.state.activeColor);
@@ -55,12 +51,19 @@ public class MenuScene : MonoBehaviour
         SaveManager.instance.UnlockTrail(SaveManager.instance.state.activeTrail);
         OnTrailSelect(SaveManager.instance.state.activeTrail);
         SetTrail(SaveManager.instance.state.activeTrail);
-        
+
         // make the button bigger
         colorPanel.GetChild(SaveManager.instance.state.activeColor).GetComponent<RectTransform>().localScale = Vector3.one * 1.125f;
         trailPanel.GetChild(SaveManager.instance.state.activeTrail).GetComponent<RectTransform>().localScale = Vector3.one * 1.125f;
+    }
+
+    void Start()
+    {
+        fadeScene.alpha = 1;
 
         SetCameraTo(GameManager.Instantce.menuFocus);
+
+        
     }
 
     void ButtonAddListener()
@@ -263,8 +266,25 @@ public class MenuScene : MonoBehaviour
     {
         activeTrailIndex = index;
         SaveManager.instance.state.activeTrail = index;
+
+        if (currentTrail != null)
+        {
+            Destroy(currentTrail);
+        }
+        // create new trail and set parent
+        currentTrail = Instantiate(GameManager.Instantce.playerTrails[index]) as GameObject;
+        currentTrail.transform.SetParent(FindObjectOfType<MenuPlayer>().transform);
+
+        // fix weird rotation issue
+        currentTrail.transform.localScale = Vector3.one * 0.01f;
+        currentTrail.transform.localPosition = Vector3.zero;
+        currentTrail.transform.localRotation = Quaternion.Euler(0, 0, 90);
+
+
         trailBuySetText.text = "Current";
         trailPanel.GetChild(selectedTrailIndex).GetComponent<Image>().color = Color.white;
+
+        // remember preferences
         SaveManager.instance.Save();
     }
 

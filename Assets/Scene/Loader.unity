@@ -489,16 +489,16 @@ MonoBehaviour:
   - {r: 0, g: 0.6102941, b: 0.38301212, a: 1}
   - {r: 0.41911763, g: 0.29584774, b: 0.29584774, a: 1}
   playerTrails:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1560959873384438, guid: bfad53e3d7d2d5844938529250e1bfe4, type: 2}
+  - {fileID: 1560959873384438, guid: bfad53e3d7d2d5844938529250e1bfe4, type: 2}
+  - {fileID: 1560959873384438, guid: bfad53e3d7d2d5844938529250e1bfe4, type: 2}
+  - {fileID: 1560959873384438, guid: bfad53e3d7d2d5844938529250e1bfe4, type: 2}
+  - {fileID: 1560959873384438, guid: bfad53e3d7d2d5844938529250e1bfe4, type: 2}
+  - {fileID: 1560959873384438, guid: bfad53e3d7d2d5844938529250e1bfe4, type: 2}
+  - {fileID: 1560959873384438, guid: bfad53e3d7d2d5844938529250e1bfe4, type: 2}
+  - {fileID: 1560959873384438, guid: bfad53e3d7d2d5844938529250e1bfe4, type: 2}
+  - {fileID: 1560959873384438, guid: bfad53e3d7d2d5844938529250e1bfe4, type: 2}
+  - {fileID: 1560959873384438, guid: bfad53e3d7d2d5844938529250e1bfe4, type: 2}
 --- !u!4 &1115462044
 Transform:
   m_ObjectHideFlags: 0

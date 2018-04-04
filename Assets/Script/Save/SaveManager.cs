@@ -4,7 +4,7 @@ public class SaveManager : MonoBehaviour
 {
     void Awake()
     {
-        ResetSave();
+//        ResetSave();
         DontDestroyOnLoad(gameObject);
         if (instance == null)
             instance = this;
