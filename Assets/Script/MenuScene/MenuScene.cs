@@ -19,6 +19,10 @@ public class MenuScene : MonoBehaviour
     [SerializeField] RectTransform menuContainer;
     [SerializeField] AnimationCurve enteringLevelZoomCurve;
     [SerializeField] MenuCamera menuCamera;
+    [SerializeField] [Tooltip("The player is parent of trail")] Transform trailParent;
+    [SerializeField] RenderTexture trailPreviewTexture;
+    [SerializeField] Transform trailPreviewObject;
+
     private bool isEnteringLevel;
     private float zoomDuration = 2f;
     private float zoomTransition;
@@ -27,8 +31,11 @@ public class MenuScene : MonoBehaviour
     private Vector3 desiredMenuPosition;
     private GameObject currentTrail;
 
-    int[] colorCost = new int[] {0, 5, 5, 5, 10, 10, 10, 15, 15, 10};
-    int[] trailCost = new int[] {0, 20, 40, 40, 60, 60, 80, 80, 100, 100};
+    private Texture previousTrail;
+    private GameObject lastPreviewObject;
+
+    int[] colorCost = new int[] {0, 5, 5, 15, 10, 20, 10, 15, 20, 25};
+    int[] trailCost = new int[] {0, 20, 40, 40, 60, 60, 80, 85, 100, 110};
     private int selectedColorIndex;
     private int selectedTrailIndex;
     private int activeColorIndex;
@@ -43,6 +50,15 @@ public class MenuScene : MonoBehaviour
         InitShop();
         InitLevel();
 
+        
+    }
+
+    void Start()
+    {
+        fadeScene.alpha = 1;
+
+        SetCameraTo(GameManager.Instantce.menuFocus);
+
         // player's preference
         SaveManager.instance.UnlockColor(SaveManager.instance.state.activeColor);
         OnColorSelect(SaveManager.instance.state.activeColor);
@@ -55,15 +71,12 @@ public class MenuScene : MonoBehaviour
         // make the button bigger
         colorPanel.GetChild(SaveManager.instance.state.activeColor).GetComponent<RectTransform>().localScale = Vector3.one * 1.125f;
         trailPanel.GetChild(SaveManager.instance.state.activeTrail).GetComponent<RectTransform>().localScale = Vector3.one * 1.125f;
-    }
 
-    void Start()
-    {
-        fadeScene.alpha = 1;
+        // create trail preview
+        lastPreviewObject = Instantiate(GameManager.Instantce.playerTrails[SaveManager.instance.state.activeTrail]) as GameObject;
+        lastPreviewObject.transform.SetParent(trailPreviewObject);
+        lastPreviewObject.transform.localPosition =Vector3.zero;
 
-        SetCameraTo(GameManager.Instantce.menuFocus);
-
-        
     }
 
     void ButtonAddListener()
@@ -123,9 +136,13 @@ public class MenuScene : MonoBehaviour
             int current = i;
             trailPanel.GetChild(current).GetComponent<Button>().onClick.AddListener(() => OnTrailSelect(current));
 
-            Image img = trailPanel.GetChild(current).GetComponent<Image>();
+            RawImage img = trailPanel.GetChild(current).GetComponent<RawImage>();
             img.color = SaveManager.instance.IsTrailOwned(current) ? Color.white : new Color(0.7f, 0.7f, 0.7f);
         }
+
+        // set the previous trail, to prevent bug when swapping later
+//        previousTrail = trailPanel.GetChild(SaveManager.instance.state.activeTrail).GetComponent<RawImage>().texture;
+
     }
 
     void InitLevel()
@@ -164,6 +181,13 @@ public class MenuScene : MonoBehaviour
     {
         if (selectedTrailIndex == currentIndex)
             return;
+
+        // set the texture to trail button
+        trailPanel.GetChild(selectedTrailIndex).GetComponent<RawImage>().texture = previousTrail;
+        // keep the new trail's preview image in the previous trail
+        previousTrail = trailPanel.GetChild(currentIndex).GetComponent<RawImage>().texture;
+        // set the new trail preview image to the new camera
+        trailPanel.GetChild(currentIndex).GetComponent<RawImage>().texture = trailPreviewTexture;
 
         trailPanel.GetChild(currentIndex).GetComponent<RectTransform>().localScale = Vector3.one * 1.115f;
         trailPanel.GetChild(selectedTrailIndex).GetComponent<RectTransform>().localScale = Vector3.one;
@@ -273,7 +297,7 @@ public class MenuScene : MonoBehaviour
         }
         // create new trail and set parent
         currentTrail = Instantiate(GameManager.Instantce.playerTrails[index]) as GameObject;
-        currentTrail.transform.SetParent(FindObjectOfType<MenuPlayer>().transform);
+        currentTrail.transform.SetParent(trailParent);
 
         // fix weird rotation issue
         currentTrail.transform.localScale = Vector3.one * 0.01f;
@@ -282,7 +306,7 @@ public class MenuScene : MonoBehaviour
 
 
         trailBuySetText.text = "Current";
-        trailPanel.GetChild(selectedTrailIndex).GetComponent<Image>().color = Color.white;
+        trailPanel.GetChild(selectedTrailIndex).GetComponent<RawImage>().color = Color.white;
 
         // remember preferences
         SaveManager.instance.Save();

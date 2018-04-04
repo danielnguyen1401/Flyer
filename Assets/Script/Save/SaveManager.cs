@@ -18,10 +18,6 @@ public class SaveManager : MonoBehaviour
 
     public static SaveManager instance { set; get; }
 
-    void Start()
-    {
-    }
-
     public void Save()
     {
         PlayerPrefs.SetString("save", Helper.Serialize<SaveState>(state));
