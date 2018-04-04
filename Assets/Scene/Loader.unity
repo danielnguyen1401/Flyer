@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -476,6 +476,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentLevel: 0
   menuFocus: 0
+  playerMat: {fileID: 2100000, guid: 91349c8e2eae87243bec5368a657409e, type: 2}
+  playerColors:
+  - {r: 1, g: 0.21323532, b: 0.21323532, a: 1}
+  - {r: 0.4705882, g: 0.8466531, b: 1, a: 1}
+  - {r: 0.52205884, g: 1, b: 0.5253549, a: 1}
+  - {r: 1, g: 0.44279915, b: 0.014705896, a: 1}
+  - {r: 1, g: 0.746856, b: 0.42647058, a: 1}
+  - {r: 1, g: 0, b: 0.972414, a: 1}
+  - {r: 0.4852941, g: 0, b: 0, a: 1}
+  - {r: 0.1544118, g: 0.37018245, b: 1, a: 1}
+  - {r: 0, g: 0.6102941, b: 0.38301212, a: 1}
+  - {r: 0.41911763, g: 0.29584774, b: 0.29584774, a: 1}
+  playerTrails:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!4 &1115462044
 Transform:
   m_ObjectHideFlags: 0

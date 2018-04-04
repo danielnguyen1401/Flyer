@@ -20,7 +20,7 @@ public class MenuScene : MonoBehaviour
     [SerializeField] AnimationCurve enteringLevelZoomCurve;
     [SerializeField] MenuCamera menuCamera;
     private bool isEnteringLevel;
-    private float zoomDuration = 3.0f;
+    private float zoomDuration = 2f;
     private float zoomTransition;
     private float fadeInSpeed = 0.33f;
 //    private float minimumFadeTime = 0.2f;
@@ -108,8 +108,11 @@ public class MenuScene : MonoBehaviour
             int current = i;
             colorPanel.GetChild(current).GetComponent<Button>().onClick.AddListener(() => OnColorSelect(current));
 
+            Color colorNotUnlocked = GameManager.Instantce.playerColors[current];
+            colorNotUnlocked.a = 0.3f;
+
             Image img = colorPanel.GetChild(current).GetComponent<Image>();
-            img.color = SaveManager.instance.IsColorOwned(current) ? Color.white : new Color(0.7f, 0.7f, 0.7f);
+            img.color = SaveManager.instance.IsColorOwned(current) ? GameManager.Instantce.playerColors[current] : colorNotUnlocked;
         }
 
         for (int i = 0; i < trailPanel.childCount; i++)
@@ -185,6 +188,7 @@ public class MenuScene : MonoBehaviour
 
         colorPanel.GetChild(currentIndex).GetComponent<RectTransform>().localScale = Vector3.one * 1.115f;
         colorPanel.GetChild(selectedColorIndex).GetComponent<RectTransform>().localScale = Vector3.one;
+        
         selectedColorIndex = currentIndex;
 
         if (SaveManager.instance.IsColorOwned(currentIndex))
@@ -250,7 +254,8 @@ public class MenuScene : MonoBehaviour
         activeColorIndex = index;
         SaveManager.instance.state.activeColor = index;
         colorBuySetText.text = "Current";
-        colorPanel.GetChild(selectedColorIndex).GetComponent<Image>().color = Color.white;
+        colorPanel.GetChild(selectedColorIndex).GetComponent<Image>().color = GameManager.Instantce.playerColors[selectedColorIndex];
+        GameManager.Instantce.playerMat.color = GameManager.Instantce.playerColors[selectedColorIndex];
         SaveManager.instance.Save();
     }
 

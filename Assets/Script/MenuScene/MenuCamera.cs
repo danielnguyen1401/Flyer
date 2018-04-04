@@ -18,8 +18,8 @@ public class MenuCamera : MonoBehaviour
 
     void Update()
     {
-        transform.localPosition = Vector3.Lerp(transform.localPosition, desirePosition, 0.1f);
-        transform.localRotation = Quaternion.Lerp(transform.localRotation, desireRotation, 0.1f);
+        transform.localPosition = Vector3.Lerp(transform.localPosition, desirePosition, Time.deltaTime * 5f);
+        transform.localRotation = Quaternion.Lerp(transform.localRotation, desireRotation, Time.deltaTime * 5f);
     }
 
     public void BackToMainMenu()
