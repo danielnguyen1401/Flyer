@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4693285678087658}
   - component: {fileID: 96914206634192282}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35,7 +35,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4300304033676528}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,7 +51,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4957004373364570}
   - component: {fileID: 96821968051180168}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -134,28 +134,22 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 1.4
+  m_Time: 2
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 0.7
+    widthMultiplier: 1
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: 0.42858124
-        inSlope: 1.6195176
-        outSlope: 1.6195176
+        value: 1
+        inSlope: -0.05065826
+        outSlope: -0.05065826
         tangentMode: 0
       - serializedVersion: 2
-        time: 0.42692113
-        value: 0.80366904
-        inSlope: -0.8299947
-        outSlope: -0.8299947
-        tangentMode: 0
-      - serializedVersion: 2
-        time: 1
-        value: 0.0071411133
+        time: 0.60791016
+        value: 0
         inSlope: -1.3204985
         outSlope: -1.3204985
         tangentMode: 0
@@ -164,8 +158,8 @@ TrailRenderer:
       m_RotationOrder: 0
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0.528, b: 0, a: 1}
-      key1: {r: 1, g: 0.384, b: 0.029411793, a: 1}
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 1, g: 1, b: 1, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -173,7 +167,7 @@ TrailRenderer:
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 20239
+      ctime1: 65535
       ctime2: 65535
       ctime3: 0
       ctime4: 0
@@ -189,11 +183,11 @@ TrailRenderer:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_NumColorKeys: 3
+      m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
     numCapVertices: 0
-    alignment: 0
+    alignment: 1
     textureMode: 0
     generateLightingData: 0
   m_MinVertexDistance: 0.1
@@ -233,28 +227,22 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 1.4
+  m_Time: 2
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 0.7
+    widthMultiplier: 1
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: 0.42858124
-        inSlope: 1.6195176
-        outSlope: 1.6195176
+        value: 1
+        inSlope: -0.05065826
+        outSlope: -0.05065826
         tangentMode: 0
       - serializedVersion: 2
-        time: 0.42692113
-        value: 0.80366904
-        inSlope: -0.8299947
-        outSlope: -0.8299947
-        tangentMode: 0
-      - serializedVersion: 2
-        time: 1
-        value: 0.0071411133
+        time: 0.60791016
+        value: 0
         inSlope: -1.3204985
         outSlope: -1.3204985
         tangentMode: 0
@@ -263,8 +251,8 @@ TrailRenderer:
       m_RotationOrder: 0
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0.528, b: 0, a: 1}
-      key1: {r: 1, g: 0.384, b: 0.029411793, a: 1}
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 1, g: 1, b: 1, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -272,7 +260,7 @@ TrailRenderer:
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 20239
+      ctime1: 65535
       ctime2: 65535
       ctime3: 0
       ctime4: 0
@@ -288,11 +276,11 @@ TrailRenderer:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_NumColorKeys: 3
+      m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
     numCapVertices: 0
-    alignment: 0
+    alignment: 1
     textureMode: 0
     generateLightingData: 0
   m_MinVertexDistance: 0.1

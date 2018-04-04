@@ -20,6 +20,7 @@ public class MenuScene : MonoBehaviour
     [SerializeField] AnimationCurve enteringLevelZoomCurve;
     [SerializeField] MenuCamera menuCamera;
     [SerializeField] [Tooltip("The player is parent of trail")] Transform trailParent;
+
     [SerializeField] RenderTexture trailPreviewTexture;
     [SerializeField] Transform trailPreviewObject;
 
@@ -49,7 +50,6 @@ public class MenuScene : MonoBehaviour
         ButtonAddListener();
         InitShop();
         InitLevel();
-
         
     }
 
@@ -75,10 +75,9 @@ public class MenuScene : MonoBehaviour
         // create trail preview
         lastPreviewObject = Instantiate(GameManager.Instantce.playerTrails[SaveManager.instance.state.activeTrail]) as GameObject;
         lastPreviewObject.transform.SetParent(trailPreviewObject);
-        lastPreviewObject.transform.localPosition =Vector3.zero;
-
+        lastPreviewObject.transform.localPosition = Vector3.zero;
     }
-
+    
     void ButtonAddListener()
     {
         playBtn.onClick.AddListener(OnPlayClick);
@@ -141,7 +140,7 @@ public class MenuScene : MonoBehaviour
         }
 
         // set the previous trail, to prevent bug when swapping later
-//        previousTrail = trailPanel.GetChild(SaveManager.instance.state.activeTrail).GetComponent<RawImage>().texture;
+        previousTrail = trailPanel.GetChild(SaveManager.instance.state.activeTrail).GetComponent<RawImage>().texture;
 
     }
 
@@ -186,9 +185,17 @@ public class MenuScene : MonoBehaviour
         trailPanel.GetChild(selectedTrailIndex).GetComponent<RawImage>().texture = previousTrail;
         // keep the new trail's preview image in the previous trail
         previousTrail = trailPanel.GetChild(currentIndex).GetComponent<RawImage>().texture;
-        // set the new trail preview image to the new camera
+        // set the new trail preview image to the other camera
         trailPanel.GetChild(currentIndex).GetComponent<RawImage>().texture = trailPreviewTexture;
 
+        // change the physical object of the trail preview
+        if (lastPreviewObject != null)
+            Destroy(lastPreviewObject);
+
+        lastPreviewObject = Instantiate(GameManager.Instantce.playerTrails[currentIndex]) as GameObject;
+        lastPreviewObject.transform.SetParent(trailPreviewObject);
+        lastPreviewObject.transform.localPosition = Vector3.zero;
+        
         trailPanel.GetChild(currentIndex).GetComponent<RectTransform>().localScale = Vector3.one * 1.115f;
         trailPanel.GetChild(selectedTrailIndex).GetComponent<RectTransform>().localScale = Vector3.one;
         selectedTrailIndex = currentIndex;
