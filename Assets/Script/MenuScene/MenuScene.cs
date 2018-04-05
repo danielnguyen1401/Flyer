@@ -65,17 +65,14 @@ public class MenuScene : MonoBehaviour
         SetColor(SaveManager.instance.state.activeColor);
 
         SaveManager.instance.UnlockTrail(SaveManager.instance.state.activeTrail);
-        OnTrailSelect(SaveManager.instance.state.activeTrail);
-        SetTrail(SaveManager.instance.state.activeTrail);
+        // show the trail preview  because delete code before: return condition
+        OnTrailSelect(SaveManager.instance.state.activeTrail); // add SetTrail() to sub-button
+        
+        SetTrail(SaveManager.instance.state.activeTrail); // set trail for current trail
 
         // make the button bigger
         colorPanel.GetChild(SaveManager.instance.state.activeColor).GetComponent<RectTransform>().localScale = Vector3.one * 1.125f;
         trailPanel.GetChild(SaveManager.instance.state.activeTrail).GetComponent<RectTransform>().localScale = Vector3.one * 1.125f;
-
-        // create trail preview
-        lastPreviewObject = Instantiate(GameManager.Instantce.playerTrails[SaveManager.instance.state.activeTrail]) as GameObject;
-        lastPreviewObject.transform.SetParent(trailPreviewObject);
-        lastPreviewObject.transform.localPosition = Vector3.zero;
     }
     
     void ButtonAddListener()
@@ -178,26 +175,31 @@ public class MenuScene : MonoBehaviour
 
     void OnTrailSelect(int currentIndex)
     {
-        if (selectedTrailIndex == currentIndex)
-            return;
+//        if (selectedTrailIndex == currentIndex)
+//            return;
 
-        // set the texture to trail button
+//        // set the texture to trail button
         trailPanel.GetChild(selectedTrailIndex).GetComponent<RawImage>().texture = previousTrail;
-        // keep the new trail's preview image in the previous trail
+//        // keep the new trail's preview image in the previous trail
         previousTrail = trailPanel.GetChild(currentIndex).GetComponent<RawImage>().texture;
-        // set the new trail preview image to the other camera
+//        // set the new trail preview image to the other camera
         trailPanel.GetChild(currentIndex).GetComponent<RawImage>().texture = trailPreviewTexture;
 
-        // change the physical object of the trail preview
+//        // change the physical object of the trail preview
         if (lastPreviewObject != null)
+        {
             Destroy(lastPreviewObject);
+        }
 
         lastPreviewObject = Instantiate(GameManager.Instantce.playerTrails[currentIndex]) as GameObject;
         lastPreviewObject.transform.SetParent(trailPreviewObject);
         lastPreviewObject.transform.localPosition = Vector3.zero;
+        lastPreviewObject.transform.localRotation = Quaternion.Euler(90, 0, 0);
         
         trailPanel.GetChild(currentIndex).GetComponent<RectTransform>().localScale = Vector3.one * 1.115f;
         trailPanel.GetChild(selectedTrailIndex).GetComponent<RectTransform>().localScale = Vector3.one;
+
+        // set the selected trail
         selectedTrailIndex = currentIndex;
 
         if (SaveManager.instance.IsTrailOwned(currentIndex))
@@ -240,7 +242,6 @@ public class MenuScene : MonoBehaviour
     {
         GameManager.Instantce.currentLevel = current;
         isEnteringLevel = true;
-
     }
 
     void OnColorBuySet()
@@ -293,7 +294,7 @@ public class MenuScene : MonoBehaviour
         SaveManager.instance.Save();
     }
 
-    void SetTrail(int index)
+    void SetTrail(int index) // set trail for trail inside player
     {
         activeTrailIndex = index;
         SaveManager.instance.state.activeTrail = index;
@@ -307,10 +308,9 @@ public class MenuScene : MonoBehaviour
         currentTrail.transform.SetParent(trailParent);
 
         // fix weird rotation issue
-        currentTrail.transform.localScale = Vector3.one * 0.01f;
         currentTrail.transform.localPosition = Vector3.zero;
         currentTrail.transform.localRotation = Quaternion.Euler(0, 0, 90);
-
+        currentTrail.transform.localScale = Vector3.one * 0.01f;
 
         trailBuySetText.text = "Current";
         trailPanel.GetChild(selectedTrailIndex).GetComponent<RawImage>().color = Color.white;
@@ -318,16 +318,6 @@ public class MenuScene : MonoBehaviour
         // remember preferences
         SaveManager.instance.Save();
     }
-
-//    void FadeIn()
-//    {
-//        if (Time.timeSinceLevelLoad > minimumFadeTime)
-//        {
-//            fadeScene.alpha += Time.deltaTime;
-//            if (fadeScene.alpha >= 1)
-//                faded = true;
-//        }
-//    }
 
     void SetCameraTo(int index)
     {
