@@ -286,11 +286,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Script\Camera\PlayerCamera.cs" />
     <Compile Include="Assets\Script\Manager\GameManager.cs" />
     <Compile Include="Assets\Script\Manager\GameScene.cs" />
     <Compile Include="Assets\Script\MenuScene\MenuCamera.cs" />
     <Compile Include="Assets\Script\MenuScene\MenuPlayer.cs" />
     <Compile Include="Assets\Script\MenuScene\MenuScene.cs" />
+    <Compile Include="Assets\Script\Player\PlayerMotor.cs" />
     <Compile Include="Assets\Script\Preloader\Preloader.cs" />
     <Compile Include="Assets\Script\Save\Helper.cs" />
     <Compile Include="Assets\Script\Save\SaveManager.cs" />

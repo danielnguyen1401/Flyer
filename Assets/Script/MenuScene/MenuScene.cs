@@ -24,10 +24,14 @@ public class MenuScene : MonoBehaviour
     [SerializeField] RenderTexture trailPreviewTexture;
     [SerializeField] Transform trailPreviewObject;
 
+    [SerializeField] Button tiltControlBtn;
+    [SerializeField] Color tiltEnableColor;
+    [SerializeField] Color tiltDisableColor;
+
     private bool isEnteringLevel;
-    private float zoomDuration = 2f;
+    private float zoomDuration = 1.5f;
     private float zoomTransition;
-    private float fadeInSpeed = 0.33f;
+    private float fadeInSpeed = 2f;
 
     private Vector3 desiredMenuPosition;
     private GameObject currentTrail;
@@ -57,7 +61,12 @@ public class MenuScene : MonoBehaviour
     {
         fadeScene.alpha = 1;
 
-        SetCameraTo(GameManager.Instantce.menuFocus);
+        if (SystemInfo.supportsAccelerometer)
+            tiltControlBtn.GetComponent<Image>().color = SaveManager.instance.state.usingAccelerometer ? tiltEnableColor : tiltDisableColor;
+        else
+            tiltControlBtn.gameObject.SetActive(false);
+
+        SetCameraTo(GameManager.Instance.menuFocus);
 
         // player's preference
         SaveManager.instance.UnlockColor(SaveManager.instance.state.activeColor);
@@ -81,6 +90,9 @@ public class MenuScene : MonoBehaviour
         shopBtn.onClick.AddListener(OnShopClick);
         colorBuySet.onClick.AddListener(OnColorBuySet);
         trailBuySet.onClick.AddListener(OnTrailBuySet);
+        tiltControlBtn.onClick.AddListener(OnTiltControl);
+        
+
     }
 
     void Update()
@@ -96,7 +108,7 @@ public class MenuScene : MonoBehaviour
 
             Vector3 newMenuPosition = desiredMenuPosition * 5f;
 
-            RectTransform rt = levelPanel.GetChild(GameManager.Instantce.currentLevel).GetComponent<RectTransform>();
+            RectTransform rt = levelPanel.GetChild(GameManager.Instance.currentLevel).GetComponent<RectTransform>();
             newMenuPosition -= rt.anchoredPosition3D * 5f;
 
             menuContainer.anchoredPosition3D = Vector3.Lerp(desiredMenuPosition, newMenuPosition, enteringLevelZoomCurve.Evaluate(zoomTransition));
@@ -120,11 +132,11 @@ public class MenuScene : MonoBehaviour
             int current = i;
             colorPanel.GetChild(current).GetComponent<Button>().onClick.AddListener(() => OnColorSelect(current));
 
-            Color colorNotUnlocked = GameManager.Instantce.playerColors[current];
+            Color colorNotUnlocked = GameManager.Instance.playerColors[current];
             colorNotUnlocked.a = 0.3f;
 
             Image img = colorPanel.GetChild(current).GetComponent<Image>();
-            img.color = SaveManager.instance.IsColorOwned(current) ? GameManager.Instantce.playerColors[current] : colorNotUnlocked;
+            img.color = SaveManager.instance.IsColorOwned(current) ? GameManager.Instance.playerColors[current] : colorNotUnlocked;
         }
 
         for (int i = 0; i < trailPanel.childCount; i++)
@@ -191,7 +203,7 @@ public class MenuScene : MonoBehaviour
             Destroy(lastPreviewObject);
         }
 
-        lastPreviewObject = Instantiate(GameManager.Instantce.playerTrails[currentIndex]) as GameObject;
+        lastPreviewObject = Instantiate(GameManager.Instance.playerTrails[currentIndex]) as GameObject;
         lastPreviewObject.transform.SetParent(trailPreviewObject);
         lastPreviewObject.transform.localPosition = Vector3.zero;
         lastPreviewObject.transform.localRotation = Quaternion.Euler(90, 0, 0);
@@ -240,7 +252,7 @@ public class MenuScene : MonoBehaviour
 
     void OnLevelSelect(int current)
     {
-        GameManager.Instantce.currentLevel = current;
+        GameManager.Instance.currentLevel = current;
         isEnteringLevel = true;
     }
 
@@ -289,8 +301,8 @@ public class MenuScene : MonoBehaviour
         activeColorIndex = index;
         SaveManager.instance.state.activeColor = index;
         colorBuySetText.text = "Current";
-        colorPanel.GetChild(selectedColorIndex).GetComponent<Image>().color = GameManager.Instantce.playerColors[selectedColorIndex];
-        GameManager.Instantce.playerMat.color = GameManager.Instantce.playerColors[selectedColorIndex];
+        colorPanel.GetChild(selectedColorIndex).GetComponent<Image>().color = GameManager.Instance.playerColors[selectedColorIndex];
+        GameManager.Instance.playerMat.color = GameManager.Instance.playerColors[selectedColorIndex];
         SaveManager.instance.Save();
     }
 
@@ -304,7 +316,7 @@ public class MenuScene : MonoBehaviour
             Destroy(currentTrail);
         }
         // create new trail and set parent
-        currentTrail = Instantiate(GameManager.Instantce.playerTrails[index]) as GameObject;
+        currentTrail = Instantiate(GameManager.Instance.playerTrails[index]) as GameObject;
         currentTrail.transform.SetParent(trailParent);
 
         // fix weird rotation issue
@@ -362,4 +374,18 @@ public class MenuScene : MonoBehaviour
     {
         goldText.text = SaveManager.instance.state.gold.ToString();
     }
+
+    public void OnTiltControl()
+    {
+        // toggle the accelerometer bool
+        SaveManager.instance.state.usingAccelerometer = !SaveManager.instance.state.usingAccelerometer;
+//        Debug.Log("Using Accelerometer: " + SaveManager.instance.state.usingAccelerometer);
+        SaveManager.instance.Save();
+
+        // change the image of tilt control button
+        tiltControlBtn.GetComponent<Image>().color = SaveManager.instance.state.usingAccelerometer ? tiltEnableColor : tiltDisableColor;
+
+    }
+
+
 }

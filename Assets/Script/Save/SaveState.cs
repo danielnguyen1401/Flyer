@@ -10,4 +10,5 @@ public class SaveState
     public int activeColor = 0;
     public int activeTrail = 0;
 
+    public bool usingAccelerometer = true;
 }

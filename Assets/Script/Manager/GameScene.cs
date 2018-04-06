@@ -51,8 +51,8 @@ public class GameScene : MonoBehaviour
 
     void CompleteLevel()
     {
-        SaveManager.instance.CompleteLevel(GameManager.Instantce.currentLevel);
-        GameManager.Instantce.menuFocus = 1;
+        SaveManager.instance.CompleteLevel(GameManager.Instance.currentLevel);
+        GameManager.Instance.menuFocus = 1;
 
         OnExitLevel();
     }

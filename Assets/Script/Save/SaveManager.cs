@@ -10,6 +10,11 @@ public class SaveManager : MonoBehaviour
             instance = this;
         Load();
 
+        if (state.usingAccelerometer && !SystemInfo.supportsAccelerometer)
+        {
+            state.usingAccelerometer = false;
+            Save();
+        }
 //        UnlockColor(1);
 //        Debug.Log(state.colorOwned); // 0000 0000 0001 0010 = 1
     }
