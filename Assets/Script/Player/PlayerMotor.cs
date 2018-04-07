@@ -24,25 +24,27 @@ public class PlayerMotor : MonoBehaviour
         // gather input from player
         Vector3 inputs = GameManager.Instance.GetPlayerInput();
 
-        // delta direction
+        // Get the delta direction
         Vector3 yaw = inputs.x * transform.right * rotSpeedX * Time.deltaTime;
         Vector3 pitch = inputs.y * transform.up * rotSpeedY * Time.deltaTime;
         Vector3 dir = yaw + pitch;
 
-        // limit the player to not do the loop
-        float maxX = Quaternion.LookRotation(moveVector + dir).eulerAngles.x;
-//
-//        // if he's not going too far up/down, add a direction to moveVector
-//        if ((maxX > 60 && maxX < 80) || (maxX > 260 && maxX < 280))
-        if ((maxX > 70 && maxX < 90) || (maxX > 270 && maxX < 290))
+//        Debug.Log("Dir: " + dir);
+        // Make sure we limit the player from doing a loop
+        float maxX = Quaternion.LookRotation(moveVector + dir).eulerAngles.x; // up and down direction
+        float maxY = Quaternion.LookRotation(moveVector + dir).eulerAngles.y;
+//        Debug.Log(maxX);
+        if (maxX < 90 && maxX > 70 || maxX > 270 && maxX < 290)
         {
-            //            // too far, don't do anything
+//         Too far!, don't do anything
         }
+
+//        if ( /*maxX > -90 && maxX < 45*/ maxY > -90 && maxY < 45 || maxY < -145 && maxY > 170) // -90 ...... 0 ........ 45     
+//        {
+//        }
         else
         {
-            moveVector += dir;
-
-            // face the player to where he is going
+            moveVector += dir; // Add the direction to the current move
             transform.rotation = Quaternion.LookRotation(moveVector);
         }
 

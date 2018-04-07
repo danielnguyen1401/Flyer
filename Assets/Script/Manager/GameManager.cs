@@ -34,8 +34,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            float v = Input.GetAxis("Vertical") * 5f;
-            float h = Input.GetAxis("Horizontal") * 2f; // rotation
+            float v = Input.GetAxis("Vertical") * 2f;
+            float h = Input.GetAxis("Horizontal") * 2f; // rotation = h
 
             return new Vector3(h, v, 0);
         }
