@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public Material playerMat;
     public Color[] playerColors = new Color[10];
     public GameObject[] playerTrails = new GameObject[10];
-    Dictionary<int, Vector2> activeTouches = new Dictionary<int, Vector2>();
+//    Dictionary<int, Vector2> activeTouches = new Dictionary<int, Vector2>();
 
 
     void Awake()
@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
 
     public Vector3 GetPlayerInput()
     {
+
         if (SaveManager.instance.state.usingAccelerometer)
         {
             Vector3 a = Input.acceleration;
@@ -36,10 +37,9 @@ public class GameManager : MonoBehaviour
         {
             float v = Input.GetAxis("Vertical") * 2f;
             float h = Input.GetAxis("Horizontal") * 2f; // rotation = h
-
             return new Vector3(h, v, 0);
         }
-
+//
 //        Vector3 r = Vector3.zero;
 //        foreach (Touch touch in Input.touches)
 //        {
@@ -62,5 +62,6 @@ public class GameManager : MonoBehaviour
 //            }
 //        }
 //        return r;
+        
     }
 }
