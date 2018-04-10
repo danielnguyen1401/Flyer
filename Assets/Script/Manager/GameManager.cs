@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public Material playerMat;
     public Color[] playerColors = new Color[10];
     public GameObject[] playerTrails = new GameObject[10];
-//    Dictionary<int, Vector2> activeTouches = new Dictionary<int, Vector2>();
+    Dictionary<int, Vector2> activeTouches = new Dictionary<int, Vector2>();
 
 
     void Awake()
@@ -26,20 +26,22 @@ public class GameManager : MonoBehaviour
 
     public Vector3 GetPlayerInput()
     {
-
+        Vector3 a;
         if (SaveManager.instance.state.usingAccelerometer)
         {
-            Vector3 a = Input.acceleration;
+            a = Input.acceleration;
             a.y = a.z;
+//            a.z = 0;
             return a;
         }
+//        else
+//        {
+//            return Vector3.zero;
+//        }
         else
         {
-            float v = Input.GetAxis("Vertical") * 2f;
-            float h = Input.GetAxis("Horizontal") * 2f; // rotation = h
-            return new Vector3(h, v, 0);
+            return new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
         }
-//
 //        Vector3 r = Vector3.zero;
 //        foreach (Touch touch in Input.touches)
 //        {
@@ -47,7 +49,6 @@ public class GameManager : MonoBehaviour
 //            {
 //                activeTouches.Add(touch.fingerId, touch.position);
 //            }
-//
 //            else if (touch.phase == TouchPhase.Ended) // if we remove finger out of the screen
 //            {
 //                if (activeTouches.ContainsKey(touch.fingerId))
@@ -62,6 +63,5 @@ public class GameManager : MonoBehaviour
 //            }
 //        }
 //        return r;
-        
     }
 }

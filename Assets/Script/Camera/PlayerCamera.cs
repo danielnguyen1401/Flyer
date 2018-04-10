@@ -2,22 +2,19 @@ using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
 {
-    [SerializeField] Transform lookAt;
-    float offset = 1.5f;
-    float distance = 3.5f;
-    Vector3 desirePostion;
+    public Transform lookAt;
 
-    void Start()
+    private Vector3 desiredPosition;
+    private float offset = 1.5f;
+    private float distance = 3.5f;
+
+    private void Update()
     {
-    }
+        // Update position
+        desiredPosition = lookAt.position + (-transform.forward * distance) + (transform.up * offset);
+        transform.position = Vector3.Lerp(transform.position, desiredPosition, 0.05f);
 
-    void Update()
-    {
-        // update position
-        desirePostion = lookAt.position + (-transform.forward * distance) + (transform.up * offset);
-        transform.position = Vector3.Lerp(transform.position, desirePostion, Time.deltaTime * 5f);
-
-        // update the rotation
+        // Update the rotation
         transform.LookAt(lookAt.position + (Vector3.up * offset));
     }
 }
