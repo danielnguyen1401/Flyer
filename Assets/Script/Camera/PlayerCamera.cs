@@ -4,15 +4,15 @@ public class PlayerCamera : MonoBehaviour
 {
     public Transform lookAt;
 
-    private Vector3 desiredPosition;
-    private float offset = 1.5f;
-    private float distance = 3.5f;
+    Vector3 desiredPosition;
+    float offset = 1f; // offset = 1
+    float distance = 5f; // distance = 5
 
     private void Update()
     {
         // Update position
         desiredPosition = lookAt.position + (-transform.forward * distance) + (transform.up * offset);
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, 0.05f);
+        transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * 2.0f);
 
         // Update the rotation
         transform.LookAt(lookAt.position + (Vector3.up * offset));

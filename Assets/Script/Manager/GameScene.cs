@@ -10,6 +10,7 @@ public class GameScene : MonoBehaviour
 
 //    private bool gameStart;
     private float minimumFadeTime = 0.5f;
+
     private bool faded;
 
     void Awake()
@@ -49,13 +50,11 @@ public class GameScene : MonoBehaviour
         SceneManager.LoadScene("Menu");
     }
 
-    void CompleteLevel()
+    public void CompleteLevel()
     {
-        SaveManager.instance.CompleteLevel(GameManager.Instance.currentLevel);
+        SaveManager.Instance.CompleteLevel(GameManager.Instance.currentLevel);
         GameManager.Instance.menuFocus = 1;
 
         OnExitLevel();
     }
-
-
 }

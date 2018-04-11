@@ -24,9 +24,9 @@ public class MenuScene : MonoBehaviour
     [SerializeField] RenderTexture trailPreviewTexture;
     [SerializeField] Transform trailPreviewObject;
 
-    [SerializeField] Button tiltControlBtn;
-    [SerializeField] Color tiltEnableColor;
-    [SerializeField] Color tiltDisableColor;
+    [SerializeField] Button inputTypeBtn;
+    [SerializeField] Color accelerometerColor;
+    [SerializeField] Color touchInputColor;
 
     private bool isEnteringLevel;
     private float zoomDuration = 1.5f;
@@ -49,7 +49,7 @@ public class MenuScene : MonoBehaviour
 
     void Awake()
     {
-//        SaveManager.instance.state.gold = 235;
+//        SaveManager.Instance.state.gold = 235;
         UpdateGoldText();
         ButtonAddListener();
         InitShop();
@@ -62,26 +62,30 @@ public class MenuScene : MonoBehaviour
         fadeScene.alpha = 1;
 
         if (SystemInfo.supportsAccelerometer)
-            tiltControlBtn.GetComponent<Image>().color = SaveManager.instance.state.usingAccelerometer ? tiltEnableColor : tiltDisableColor;
+        {
+            inputTypeBtn.GetComponent<Image>().color = SaveManager.Instance.state.usingAccelerometer ? accelerometerColor : touchInputColor;
+            inputTypeBtn.GetComponentInChildren<Text>().text = 
+                SaveManager.Instance.state.usingAccelerometer ? "Accelerometer" : "Finger Touch";
+        }
         else
-            tiltControlBtn.gameObject.SetActive(false);
+            inputTypeBtn.gameObject.SetActive(false);
 
         SetCameraTo(GameManager.Instance.menuFocus);
 
         // player's preference
-        SaveManager.instance.UnlockColor(SaveManager.instance.state.activeColor);
-        OnColorSelect(SaveManager.instance.state.activeColor);
-        SetColor(SaveManager.instance.state.activeColor);
+        SaveManager.Instance.UnlockColor(SaveManager.Instance.state.activeColor);
+        OnColorSelect(SaveManager.Instance.state.activeColor);
+        SetColor(SaveManager.Instance.state.activeColor);
 
-        SaveManager.instance.UnlockTrail(SaveManager.instance.state.activeTrail);
+        SaveManager.Instance.UnlockTrail(SaveManager.Instance.state.activeTrail);
         // show the trail preview  because delete code before: return condition
-        OnTrailSelect(SaveManager.instance.state.activeTrail); // add SetTrail() to sub-button
+        OnTrailSelect(SaveManager.Instance.state.activeTrail); // add SetTrail() to sub-button
         
-        SetTrail(SaveManager.instance.state.activeTrail); // set trail for current trail
+        SetTrail(SaveManager.Instance.state.activeTrail); // set trail for current trail
 
         // make the button bigger
-        colorPanel.GetChild(SaveManager.instance.state.activeColor).GetComponent<RectTransform>().localScale = Vector3.one * 1.125f;
-        trailPanel.GetChild(SaveManager.instance.state.activeTrail).GetComponent<RectTransform>().localScale = Vector3.one * 1.125f;
+        colorPanel.GetChild(SaveManager.Instance.state.activeColor).GetComponent<RectTransform>().localScale = Vector3.one * 1.125f;
+        trailPanel.GetChild(SaveManager.Instance.state.activeTrail).GetComponent<RectTransform>().localScale = Vector3.one * 1.125f;
     }
     
     void ButtonAddListener()
@@ -90,9 +94,7 @@ public class MenuScene : MonoBehaviour
         shopBtn.onClick.AddListener(OnShopClick);
         colorBuySet.onClick.AddListener(OnColorBuySet);
         trailBuySet.onClick.AddListener(OnTrailBuySet);
-        tiltControlBtn.onClick.AddListener(OnTiltControl);
-        
-
+        inputTypeBtn.onClick.AddListener(ChooseInputType);
     }
 
     void Update()
@@ -136,7 +138,7 @@ public class MenuScene : MonoBehaviour
             colorNotUnlocked.a = 0.3f;
 
             Image img = colorPanel.GetChild(current).GetComponent<Image>();
-            img.color = SaveManager.instance.IsColorOwned(current) ? GameManager.Instance.playerColors[current] : colorNotUnlocked;
+            img.color = SaveManager.Instance.IsColorOwned(current) ? GameManager.Instance.playerColors[current] : colorNotUnlocked;
         }
 
         for (int i = 0; i < trailPanel.childCount; i++)
@@ -145,11 +147,11 @@ public class MenuScene : MonoBehaviour
             trailPanel.GetChild(current).GetComponent<Button>().onClick.AddListener(() => OnTrailSelect(current));
 
             RawImage img = trailPanel.GetChild(current).GetComponent<RawImage>();
-            img.color = SaveManager.instance.IsTrailOwned(current) ? Color.white : new Color(0.7f, 0.7f, 0.7f);
+            img.color = SaveManager.Instance.IsTrailOwned(current) ? Color.white : new Color(0.7f, 0.7f, 0.7f);
         }
 
         // set the previous trail, to prevent bug when swapping later
-        previousTrail = trailPanel.GetChild(SaveManager.instance.state.activeTrail).GetComponent<RawImage>().texture;
+        previousTrail = trailPanel.GetChild(SaveManager.Instance.state.activeTrail).GetComponent<RawImage>().texture;
 
     }
 
@@ -162,10 +164,10 @@ public class MenuScene : MonoBehaviour
             b.onClick.AddListener(() => OnLevelSelect(current));
 
             Image img = levelPanel.GetChild(current).GetComponent<Image>();
-            if (current <= SaveManager.instance.state.completedLevel)
+            if (current <= SaveManager.Instance.state.completedLevel)
             {
                 // it's unlocked
-                if (current == SaveManager.instance.state.completedLevel)
+                if (current == SaveManager.Instance.state.completedLevel)
                 {
                     // not complete the level
                     img.color = Color.white;
@@ -214,7 +216,7 @@ public class MenuScene : MonoBehaviour
         // set the selected trail
         selectedTrailIndex = currentIndex;
 
-        if (SaveManager.instance.IsTrailOwned(currentIndex))
+        if (SaveManager.Instance.IsTrailOwned(currentIndex))
         {
             if (activeTrailIndex == currentIndex)
             {
@@ -239,7 +241,7 @@ public class MenuScene : MonoBehaviour
         
         selectedColorIndex = currentIndex;
 
-        if (SaveManager.instance.IsColorOwned(currentIndex))
+        if (SaveManager.Instance.IsColorOwned(currentIndex))
         {
             if (activeColorIndex == currentIndex)
                 colorBuySetText.text = "Current";
@@ -258,14 +260,14 @@ public class MenuScene : MonoBehaviour
 
     void OnColorBuySet()
     {
-        if (SaveManager.instance.IsColorOwned(selectedColorIndex))
+        if (SaveManager.Instance.IsColorOwned(selectedColorIndex))
         {
             SetColor(selectedColorIndex);
         }
         else
         {
             // attemp to buy
-            if (SaveManager.instance.BuyColor(selectedColorIndex, colorCost[selectedColorIndex]))
+            if (SaveManager.Instance.BuyColor(selectedColorIndex, colorCost[selectedColorIndex]))
             {
                 SetColor(selectedColorIndex);
                 UpdateGoldText();
@@ -277,14 +279,14 @@ public class MenuScene : MonoBehaviour
 
     void OnTrailBuySet()
     {
-        if (SaveManager.instance.IsTrailOwned(selectedTrailIndex))
+        if (SaveManager.Instance.IsTrailOwned(selectedTrailIndex))
         {
             SetTrail(selectedTrailIndex);
         }
         else
         {
             // attemp to buy trail
-            if (SaveManager.instance.BuyTrail(selectedTrailIndex, trailCost[selectedTrailIndex]))
+            if (SaveManager.Instance.BuyTrail(selectedTrailIndex, trailCost[selectedTrailIndex]))
             {
                 SetTrail(selectedTrailIndex);
                 UpdateGoldText();
@@ -299,17 +301,17 @@ public class MenuScene : MonoBehaviour
     void SetColor(int index) // change the color of the selected color button, interact with buy button
     {
         activeColorIndex = index;
-        SaveManager.instance.state.activeColor = index;
+        SaveManager.Instance.state.activeColor = index;
         colorBuySetText.text = "Current";
         colorPanel.GetChild(selectedColorIndex).GetComponent<Image>().color = GameManager.Instance.playerColors[selectedColorIndex];
         GameManager.Instance.playerMat.color = GameManager.Instance.playerColors[selectedColorIndex];
-        SaveManager.instance.Save();
+        SaveManager.Instance.Save();
     }
 
     void SetTrail(int index) // set trail for trail inside player
     {
         activeTrailIndex = index;
-        SaveManager.instance.state.activeTrail = index;
+        SaveManager.Instance.state.activeTrail = index;
 
         if (currentTrail != null)
         {
@@ -328,7 +330,7 @@ public class MenuScene : MonoBehaviour
         trailPanel.GetChild(selectedTrailIndex).GetComponent<RawImage>().color = Color.white;
 
         // remember preferences
-        SaveManager.instance.Save();
+        SaveManager.Instance.Save();
     }
 
     void SetCameraTo(int index)
@@ -372,19 +374,18 @@ public class MenuScene : MonoBehaviour
 
     public void UpdateGoldText()
     {
-        goldText.text = SaveManager.instance.state.gold.ToString();
+        goldText.text = SaveManager.Instance.state.gold.ToString();
     }
 
-    public void OnTiltControl()
+    public void ChooseInputType()
     {
         // toggle the accelerometer bool
-        SaveManager.instance.state.usingAccelerometer = !SaveManager.instance.state.usingAccelerometer;
-//        Debug.Log("Using Accelerometer: " + SaveManager.instance.state.usingAccelerometer);
-        SaveManager.instance.Save();
+        SaveManager.Instance.state.usingAccelerometer = !SaveManager.Instance.state.usingAccelerometer;
+        SaveManager.Instance.Save();
 
-        // change the image of tilt control button
-        tiltControlBtn.GetComponent<Image>().color = SaveManager.instance.state.usingAccelerometer ? tiltEnableColor : tiltDisableColor;
-
+        // change the image of choose input button
+        inputTypeBtn.GetComponent<Image>().color = SaveManager.Instance.state.usingAccelerometer ? accelerometerColor : touchInputColor;
+        inputTypeBtn.GetComponentInChildren<Text>().text = SaveManager.Instance.state.usingAccelerometer ? "Accelerometer" : "Finger Touch";
     }
 
 

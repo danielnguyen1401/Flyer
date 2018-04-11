@@ -2154,7 +2154,7 @@ GameObject:
   - component: {fileID: 671708334}
   - component: {fileID: 671708333}
   m_Layer: 5
-  m_Name: Accelerometer Button
+  m_Name: Input Type
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2676,9 +2676,9 @@ MonoBehaviour:
   trailParent: {fileID: 1855622459}
   trailPreviewTexture: {fileID: 8400000, guid: 1849884ec52135e4fb2a55ee766e5876, type: 2}
   trailPreviewObject: {fileID: 1424564114}
-  tiltControlBtn: {fileID: 671708333}
-  tiltEnableColor: {r: 1, g: 0.39705884, b: 0.39705884, a: 1}
-  tiltDisableColor: {r: 0.16176468, g: 0.16176468, b: 0.16176468, a: 1}
+  inputTypeBtn: {fileID: 671708333}
+  accelerometerColor: {r: 1, g: 0, b: 0, a: 1}
+  touchInputColor: {r: 0.90162265, g: 1, b: 0.28676468, a: 1}
 --- !u!1 &880402538
 GameObject:
   m_ObjectHideFlags: 0
@@ -4563,7 +4563,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 12800000, guid: 9c7a7312b02b5a642b4de5318aa57f59, type: 3}
     m_FontSize: 16
-    m_FontStyle: 3
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
     m_MaxSize: 40
@@ -4573,7 +4573,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Tilt Control
+  m_Text: Accelerometer
 --- !u!222 &1507591579
 CanvasRenderer:
   m_ObjectHideFlags: 0

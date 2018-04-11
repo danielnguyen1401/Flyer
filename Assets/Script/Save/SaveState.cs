@@ -11,4 +11,5 @@ public class SaveState
     public int activeTrail = 0;
 
     public bool usingAccelerometer = true;
+//    public bool usingTouchInput;
 }

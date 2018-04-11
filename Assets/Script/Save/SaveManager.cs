@@ -6,8 +6,8 @@ public class SaveManager : MonoBehaviour
     {
 //        ResetSave();
         DontDestroyOnLoad(gameObject);
-        if (instance == null)
-            instance = this;
+        if (Instance == null)
+            Instance = this;
         Load();
 
         if (state.usingAccelerometer && !SystemInfo.supportsAccelerometer)
@@ -21,7 +21,7 @@ public class SaveManager : MonoBehaviour
 
     public SaveState state;
 
-    public static SaveManager instance { set; get; }
+    public static SaveManager Instance { set; get; }
 
     public void Save()
     {
