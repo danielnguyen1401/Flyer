@@ -32,17 +32,14 @@ public class RingManager : MonoBehaviour
 
     public void NextRing()
     {
-        // play animation
-        rings[currentRing].GetComponent<Animator>().SetTrigger("Shake");
-
         currentRing++;
-        
+
         if (currentRing == rings.Count) // check if Victory
         {
             Victory();
             return;
         }
-
+        
         // show the final material
         if (currentRing == rings.Count - 1)
             rings[currentRing].GetComponent<MeshRenderer>().material = finalRingMat;
@@ -54,7 +51,6 @@ public class RingManager : MonoBehaviour
 
     void Victory()
     {
-        Debug.Log("victory");
-//        FindObjectOfType<GameScene>().CompleteLevel();
+        //        FindObjectOfType<GameScene>().CompleteLevel();
     }
 }
