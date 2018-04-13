@@ -4,7 +4,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { set; get; }
-
+    public bool finishedLevel = true;  // if TRUE -> Game over
     public int currentLevel = 0;
     public int menuFocus = 0;
     public Material playerMat;

@@ -12,8 +12,7 @@ public class PlayerMotor : MonoBehaviour
         controller = GetComponent<CharacterController>();
 
         // set trail belong to plane
-        GameObject trail =
-            Instantiate(GameManager.Instance.playerTrails[SaveManager.Instance.state.activeTrail]) as GameObject;
+        GameObject trail = Instantiate(GameManager.Instance.playerTrails[SaveManager.Instance.state.activeTrail]) as GameObject;
         trail.transform.SetParent(transform);
         trail.transform.localRotation = Quaternion.Euler(new Vector3(-90, 0, 0));
     }
@@ -24,6 +23,11 @@ public class PlayerMotor : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.finishedLevel)
+        {
+            return;
+        }
+
         Vector3 moveVector = transform.forward * baseSpeed;
         Vector3 inputs = GameManager.Instance.GetPlayerInput();
 

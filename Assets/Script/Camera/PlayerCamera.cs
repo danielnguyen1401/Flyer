@@ -10,6 +10,10 @@ public class PlayerCamera : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.Instance.finishedLevel)
+        {
+            return;
+        }
         // Update position
         desiredPosition = lookAt.position + (-transform.forward * distance) + (transform.up * offset);
         transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * 2.0f);

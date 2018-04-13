@@ -24,13 +24,13 @@ public class Ring : MonoBehaviour
     {
         if (activeRing && target.gameObject.CompareTag("Player"))
         {
-            Vector3 pos = transform.position;
-            pos.z -= 1f;    // pos.z += value -> error
-            transform.DOMove(pos, 0.1f);
+//            Vector3 pos = transform.position;
+//            pos.z -= 1f;    // pos.z += value -> error
+//            transform.DOMove(pos, 0.1f);
             transform.DOShakeScale(2f, 10f);
 
             ringMan.NextRing();
-            Destroy(gameObject, 4);
+            Destroy(gameObject, 1f);
         }
     }
 }

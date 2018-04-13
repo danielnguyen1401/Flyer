@@ -1,53 +1,49 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameScene : MonoBehaviour
 {
-    [SerializeField] private Button completeLevelBtn;
-    [SerializeField] private Button exitBtn;
-    [SerializeField] private CanvasGroup fadeGroup;
+    [SerializeField] Image fadeGroup;
 
-//    private bool gameStart;
-    private float minimumFadeTime = 0.5f;
+    [SerializeField] GameObject finishPanel;
 
-    private bool faded;
+    private Transform playerObj;
 
     void Awake()
     {
-        completeLevelBtn.onClick.AddListener(CompleteLevel);
-        exitBtn.onClick.AddListener(OnExitLevel);
+        playerObj = GameObject.FindGameObjectWithTag("Player").transform;
+
+        // wait 2 seconds
+        GameManager.Instance.finishedLevel = true; // It's TRUE == Game Over
+        fadeGroup.DOFade(0, 3).SetEase(Ease.InSine).SetLoops(1, LoopType.Restart).SetAutoKill(true).OnComplete(CanStartGame);
     }
 
     void Start()
     {
-        fadeGroup.alpha = 1;
+        finishPanel.SetActive(false);
+    }
+
+    void CanStartGame()
+    {
+        GameManager.Instance.finishedLevel = false;
     }
 
     void Update()
     {
-        if (!faded)
-        {
-            FadeIn();
-        }
     }
 
-    void FadeIn()
-    {
-        if (Time.timeSinceLevelLoad > minimumFadeTime)
-        {
-            fadeGroup.alpha -= Time.deltaTime;
-            if (fadeGroup.alpha <= 0)
-            {
-                faded = true;
-//                gameStart = true;
-            }
-        }
-    }
-
-    void OnExitLevel()
+    public void OnExitLevel()
     {
         SceneManager.LoadScene("Menu");
+        GameManager.Instance.finishedLevel = false;
+    }
+
+    public void OnReloadLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        GameManager.Instance.finishedLevel = false;
     }
 
     public void CompleteLevel()
@@ -55,6 +51,14 @@ public class GameScene : MonoBehaviour
         SaveManager.Instance.CompleteLevel(GameManager.Instance.currentLevel);
         GameManager.Instance.menuFocus = 1;
 
-        OnExitLevel();
+        // set finishedLevel to true
+        GameManager.Instance.finishedLevel = true; // if it TRUE -> Game Over
+        playerObj.DOLocalMove(new Vector3(0, 0, -5), 1.5f)
+            .SetEase(Ease.InOutQuad).OnComplete(ShowFinishPanel).SetAutoKill(true);
+    }
+
+    void ShowFinishPanel()
+    {
+        finishPanel.SetActive(true);
     }
 }

@@ -119,7 +119,7 @@ public class MenuScene : MonoBehaviour
 
             if (zoomTransition >= 1)
             {
-                SceneManager.LoadScene("Game");
+                UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
             }
         }
     }

@@ -8,8 +8,13 @@ public class RingManager : MonoBehaviour
     public Material activeRingMat;
     public Material inactiveRingMat;
     public Material finalRingMat;
-
+    private GameScene gameScene;
     int currentRing = 0;
+
+    void Awake()
+    {
+        gameScene = GameObject.FindGameObjectWithTag("GameScene").GetComponent<GameScene>();
+    }
 
     void Start()
     {
@@ -39,7 +44,7 @@ public class RingManager : MonoBehaviour
             Victory();
             return;
         }
-        
+
         // show the final material
         if (currentRing == rings.Count - 1)
             rings[currentRing].GetComponent<MeshRenderer>().material = finalRingMat;
@@ -51,6 +56,6 @@ public class RingManager : MonoBehaviour
 
     void Victory()
     {
-        //        FindObjectOfType<GameScene>().CompleteLevel();
+        gameScene.CompleteLevel();
     }
 }
