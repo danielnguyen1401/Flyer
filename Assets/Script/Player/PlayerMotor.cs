@@ -6,19 +6,25 @@ public class PlayerMotor : MonoBehaviour
     float baseSpeed = 10.0f;
     float rotSpeedX = 6.0f;
     float rotSpeedY = 3f;
+    Vector3 moveVector;
+    [SerializeField] GameObject brokenPlane;
+    GameScene gameScene;
 
     void Awake()
     {
         controller = GetComponent<CharacterController>();
 
         // set trail belong to plane
-        GameObject trail = Instantiate(GameManager.Instance.playerTrails[SaveManager.Instance.state.activeTrail]) as GameObject;
+        GameObject trail =
+            Instantiate(GameManager.Instance.playerTrails[SaveManager.Instance.state.activeTrail]) as GameObject;
         trail.transform.SetParent(transform);
         trail.transform.localRotation = Quaternion.Euler(new Vector3(-90, 0, 0));
+        brokenPlane.SetActive(false);
     }
 
     void Start()
     {
+        gameScene = GameObject.FindObjectOfType<GameScene>();
     }
 
     void Update()
@@ -27,8 +33,7 @@ public class PlayerMotor : MonoBehaviour
         {
             return;
         }
-
-        Vector3 moveVector = transform.forward * baseSpeed;
+        moveVector = transform.forward * baseSpeed;
         Vector3 inputs = GameManager.Instance.GetPlayerInput();
 
         // Get the delta direction
@@ -51,5 +56,30 @@ public class PlayerMotor : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(moveVector);
         }
         controller.Move(moveVector * Time.deltaTime);
+    }
+
+    void
+        OnControllerColliderHit(
+            ControllerColliderHit target) // call when character controller hit a collider while performing a Move
+    {
+        if (target.gameObject.CompareTag("Ring"))
+        {
+            GameManager.Instance.finishedLevel = true;
+            BreakThePlane();
+            target.gameObject.GetComponent<MeshCollider>().enabled = false; // disable collider of ring
+
+            // wait 1 second, show Game Over Panel
+            gameScene.ShowOverPanel();
+        }
+    }
+
+    void BreakThePlane()
+    {
+        // active broken model, disactive plane model
+        gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        brokenPlane.SetActive(true);
+
+        // unparent the plane's parts
+        brokenPlane.transform.DetachChildren();
     }
 }

@@ -33,4 +33,5 @@ public class Ring : MonoBehaviour
             Destroy(gameObject, 1f);
         }
     }
+
 }

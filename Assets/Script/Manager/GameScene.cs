@@ -8,6 +8,7 @@ public class GameScene : MonoBehaviour
     [SerializeField] Image fadeGroup;
 
     [SerializeField] GameObject finishPanel;
+    [SerializeField] GameObject gameOverPanel;
 
     private Transform playerObj;
 
@@ -23,6 +24,7 @@ public class GameScene : MonoBehaviour
     void Start()
     {
         finishPanel.SetActive(false);
+        gameOverPanel.SetActive(false);
     }
 
     void CanStartGame()
@@ -53,12 +55,18 @@ public class GameScene : MonoBehaviour
 
         // set finishedLevel to true
         GameManager.Instance.finishedLevel = true; // if it TRUE -> Game Over
-        playerObj.DOLocalMove(new Vector3(0, 0, -5), 1.5f)
+        playerObj.DOLocalMove(new Vector3(0, 0, 2), 1.5f)
             .SetEase(Ease.InOutQuad).OnComplete(ShowFinishPanel).SetAutoKill(true);
     }
 
     void ShowFinishPanel()
     {
         finishPanel.SetActive(true);
+    }
+
+    public void ShowOverPanel()
+    {
+        gameOverPanel.SetActive(true); // inside DOTween set delay to some seconds
+
     }
 }
