@@ -290,6 +290,24 @@
     <Reference Include="DOTweenProEditor">
       <HintPath>Assets/Demigiant/DOTweenPro/Editor/DOTweenProEditor.dll</HintPath>
     </Reference>
+    <Reference Include="ProBuilderCore-Unity5">
+      <HintPath>Assets/ProCore/ProBuilder/Classes/ProBuilderCore-Unity5.dll</HintPath>
+    </Reference>
+    <Reference Include="ProBuilderMeshOps-Unity5">
+      <HintPath>Assets/ProCore/ProBuilder/Classes/ProBuilderMeshOps-Unity5.dll</HintPath>
+    </Reference>
+    <Reference Include="KdTreeLib">
+      <HintPath>Assets/ProCore/ProBuilder/Classes/ClassesLib/KdTreeLib.dll</HintPath>
+    </Reference>
+    <Reference Include="pb_Stl">
+      <HintPath>Assets/ProCore/ProBuilder/Classes/ClassesLib/pb_Stl.dll</HintPath>
+    </Reference>
+    <Reference Include="Poly2Tri">
+      <HintPath>Assets/ProCore/ProBuilder/Classes/ClassesLib/Poly2Tri.dll</HintPath>
+    </Reference>
+    <Reference Include="ProBuilderEditor-Unity5">
+      <HintPath>Assets/ProCore/ProBuilder/Editor/ProBuilderEditor-Unity5.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.Advertisements">
       <HintPath>C:/Users/Yuan/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.ads@2.0.3/UnityEngine.Advertisements.dll</HintPath>
     </Reference>
@@ -310,24 +328,6 @@
     </Reference>
     <Reference Include="UnityEngine.StandardEvents">
       <HintPath>C:/Users/Yuan/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10/UnityEngine.StandardEvents.dll</HintPath>
-    </Reference>
-    <Reference Include="ProBuilderCore-Unity5">
-      <HintPath>Assets/ProCore/ProBuilder/Classes/ProBuilderCore-Unity5.dll</HintPath>
-    </Reference>
-    <Reference Include="pb_Stl">
-      <HintPath>Assets/ProCore/ProBuilder/Classes/ClassesLib/pb_Stl.dll</HintPath>
-    </Reference>
-    <Reference Include="Poly2Tri">
-      <HintPath>Assets/ProCore/ProBuilder/Classes/ClassesLib/Poly2Tri.dll</HintPath>
-    </Reference>
-    <Reference Include="ProBuilderEditor-Unity5">
-      <HintPath>Assets/ProCore/ProBuilder/Editor/ProBuilderEditor-Unity5.dll</HintPath>
-    </Reference>
-    <Reference Include="ProBuilderMeshOps-Unity5">
-      <HintPath>Assets/ProCore/ProBuilder/Classes/ProBuilderMeshOps-Unity5.dll</HintPath>
-    </Reference>
-    <Reference Include="KdTreeLib">
-      <HintPath>Assets/ProCore/ProBuilder/Classes/ClassesLib/KdTreeLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -389,6 +389,23 @@
     <Compile Include="Assets\ProCore\ProBuilder\Editor\pb_MissingScriptEditor.cs" />
     <Compile Include="Assets\ProCore\ProBuilder\Editor\pb_Preferences.cs" />
     <Compile Include="Assets\ProCore\ProBuilder\Editor\pb_ScenePostProcessor.cs" />
+    <Compile Include="Assets\ProCore\QuickEdit\About\Editor\qe_AboutWindow.cs" />
+    <Compile Include="Assets\ProCore\QuickEdit\Editor\qe_About.cs" />
+    <Compile Include="Assets\ProCore\QuickEdit\Editor\qe_Constant.cs" />
+    <Compile Include="Assets\ProCore\QuickEdit\Editor\qe_Edge.cs" />
+    <Compile Include="Assets\ProCore\QuickEdit\Editor\qe_Editor.cs" />
+    <Compile Include="Assets\ProCore\QuickEdit\Editor\qe_Editor_Utility.cs" />
+    <Compile Include="Assets\ProCore\QuickEdit\Editor\qe_ElementCache.cs" />
+    <Compile Include="Assets\ProCore\QuickEdit\Editor\qe_Enum.cs" />
+    <Compile Include="Assets\ProCore\QuickEdit\Editor\qe_HandleRendererEditor.cs" />
+    <Compile Include="Assets\ProCore\QuickEdit\Editor\qe_HandleTransform.cs" />
+    <Compile Include="Assets\ProCore\QuickEdit\Editor\qe_Lightmapping.cs" />
+    <Compile Include="Assets\ProCore\QuickEdit\Editor\qe_Math.cs" />
+    <Compile Include="Assets\ProCore\QuickEdit\Editor\qe_Mesh.cs" />
+    <Compile Include="Assets\ProCore\QuickEdit\Editor\qe_Mesh_Utility.cs" />
+    <Compile Include="Assets\ProCore\QuickEdit\Editor\qe_RaycastHit.cs" />
+    <Compile Include="Assets\ProCore\QuickEdit\Editor\qe_Triangle.cs" />
+    <Compile Include="Assets\ProCore\QuickEdit\Editor\qeUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Demigiant\DOTween\DOTween.XML" />
@@ -424,6 +441,10 @@
     <None Include="Assets\ProCore\ProBuilder\Shader\pb_VertexPicker.shader" />
     <None Include="Assets\ProCore\ProBuilder\Shader\pb_VertexShader.shader" />
     <None Include="Assets\ProCore\ProBuilder\readme.txt" />
+    <None Include="Assets\ProCore\QuickEdit\About\changelog.txt" />
+    <None Include="Assets\ProCore\QuickEdit\About\pc_AboutEntry_QuickEdit.txt" />
+    <None Include="Assets\ProCore\QuickEdit\Shader\qe_FaceShader.shader" />
+    <None Include="Assets\ProCore\QuickEdit\Shader\qe_VertexShader.shader" />
     <None Include="Assets\Shader\DiffuseX.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

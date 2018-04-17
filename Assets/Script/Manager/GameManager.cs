@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public Material playerMat;
     public Color[] playerColors = new Color[10];
     public GameObject[] playerTrails = new GameObject[10];
+    public int gold;
     Dictionary<int, Vector2> activeTouches = new Dictionary<int, Vector2>();
 
     void Awake()

@@ -33,6 +33,7 @@ public class RingManager : MonoBehaviour
 
     void Update()
     {
+        
     }
 
     public void NextRing()

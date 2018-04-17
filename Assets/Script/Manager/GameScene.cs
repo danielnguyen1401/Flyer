@@ -6,25 +6,33 @@ using UnityEngine.UI;
 public class GameScene : MonoBehaviour
 {
     [SerializeField] Image fadeGroup;
-
     [SerializeField] GameObject finishPanel;
-    [SerializeField] GameObject gameOverPanel;
 
+    [SerializeField] RectTransform gameOverPanel;
+
+    // Gold panel to update gold
+    [SerializeField] RectTransform goldPanel;
+    [SerializeField] private GameObject obstacleGroup;
+    [SerializeField] private GameObject gemGroup;
+    private GameObject ringManager;
     private Transform playerObj;
 
     void Awake()
     {
         playerObj = GameObject.FindGameObjectWithTag("Player").transform;
-
-        // wait 2 seconds
         GameManager.Instance.finishedLevel = true; // It's TRUE == Game Over
-        fadeGroup.DOFade(0, 3).SetEase(Ease.InSine).SetLoops(1, LoopType.Restart).SetAutoKill(true).OnComplete(CanStartGame);
+        // fade the fadeGroup
+        fadeGroup.DOFade(0, 2.2f).SetEase(Ease.InSine).SetLoops(1, LoopType.Restart).OnComplete(CanStartGame);
     }
 
     void Start()
     {
+        ringManager = GameObject.FindGameObjectWithTag("RingManager");
         finishPanel.SetActive(false);
-        gameOverPanel.SetActive(false);
+        gameOverPanel.gameObject.SetActive(false);
+        // update gold text
+        goldPanel.gameObject.SetActive(true);
+        UpdateGold();
     }
 
     void CanStartGame()
@@ -62,11 +70,32 @@ public class GameScene : MonoBehaviour
     void ShowFinishPanel()
     {
         finishPanel.SetActive(true);
+        goldPanel.gameObject.SetActive(false);
     }
 
-    public void ShowOverPanel()
+    public void GameOver()
     {
-        gameOverPanel.SetActive(true); // inside DOTween set delay to some seconds
+        // disable all the rings
+        ringManager.transform.DOScale(new Vector3(0, 0, 0), 0.3f).SetDelay(1.7f);
+        // deactive all the obstacles, gems
+        obstacleGroup.SetActive(false);
+        gemGroup.SetActive(false);
+        // show the game over panel
+        gameOverPanel.gameObject.SetActive(true);
 
+        goldPanel.gameObject.SetActive(false);
+        // play animation for over panel
+        gameOverPanel.DOAnchorPos(new Vector3(0, 0, 0), 1.2f).SetDelay(2f).SetEase(Ease.OutQuad);
+        // Game Over text's anim
+        RectTransform overText = gameOverPanel.GetChild(0).GetComponent<RectTransform>();
+        overText.DOAnchorPos(new Vector3(0, -150, 0), 1.5f).SetDelay(2.8f).SetEase(Ease.InOutElastic);
+        overText.DOScale(1.5f, 1).SetDelay(3f).SetEase(Ease.InBack).SetLoops(2, LoopType.Yoyo);
+        overText.GetComponent<Text>().DOColor(new Color(1, 0.68f, 0), 1f).SetDelay(4f);
+    }
+
+    public void UpdateGold()
+    {
+        Text goldValue = goldPanel.GetChild(0).GetComponent<Text>();
+        goldValue.text = SaveManager.Instance.state.gold.ToString();
     }
 }

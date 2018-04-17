@@ -58,9 +58,8 @@ public class PlayerMotor : MonoBehaviour
         controller.Move(moveVector * Time.deltaTime);
     }
 
-    void
-        OnControllerColliderHit(
-            ControllerColliderHit target) // call when character controller hit a collider while performing a Move
+    // call when character controller hit a collider while performing a Move
+    void OnControllerColliderHit(ControllerColliderHit target)
     {
         if (target.gameObject.CompareTag("Ring"))
         {
@@ -69,7 +68,27 @@ public class PlayerMotor : MonoBehaviour
             target.gameObject.GetComponent<MeshCollider>().enabled = false; // disable collider of ring
 
             // wait 1 second, show Game Over Panel
-            gameScene.ShowOverPanel();
+            gameScene.GameOver();
+        }
+        if (target.gameObject.CompareTag("Token"))
+        {
+            Destroy(target.gameObject);
+            SaveManager.Instance.state.gold++;
+            // update gold value in GameScene
+            gameScene.UpdateGold();
+        }
+        if (target.gameObject.CompareTag("Obstacle"))
+        {
+            GameManager.Instance.finishedLevel = true;
+            BreakThePlane();
+            target.gameObject.GetComponent<MeshCollider>().enabled = false;
+            gameScene.GameOver();
+        }
+        if (target.gameObject.CompareTag("DeadLine"))
+        {
+            GameManager.Instance.finishedLevel = true;
+            gameObject.SetActive(false);
+            gameScene.GameOver();
         }
     }
 
@@ -82,4 +101,6 @@ public class PlayerMotor : MonoBehaviour
         // unparent the plane's parts
         brokenPlane.transform.DetachChildren();
     }
+
+
 }

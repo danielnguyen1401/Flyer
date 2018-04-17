@@ -27,6 +27,10 @@ MonoBehaviour:
   - pbDefaultOpenInDockableWindow
   - pbIconGUI
   - pb_TorusUsesInnerOuterMethod
+  - pbEnableBackfaceSelection
+  - pbGenerateUV2PerObject
+  - pbDisableAutoUV2Generation
+  - pbUVMaterialPreview
   m_Int_keys:
   - pbHandleAlignment
   - pbDefaultEditLevel
@@ -34,6 +38,7 @@ MonoBehaviour:
   - pb_GIWorkflowMode
   - pbDefaultExportFormat
   - pbDragSelectMode
+  - pbMirrorObjectScale
   m_Float_keys:
   - pbEditorScroll.x
   - pbEditorScroll.y
@@ -42,8 +47,8 @@ MonoBehaviour:
   - pbCurrentMaterialPalette
   m_Color_keys: []
   m_Material_keys: []
-  m_Bool_values: 000101000000000000000100010001
-  m_Int_values: 010000000100000002000000010000000000000000000000
+  m_Bool_values: 00010100000000000000000001010101010101
+  m_Int_values: 0200000001000000020000000100000000000000010000000a000000
   m_Float_values:
   - 0
   - 0
